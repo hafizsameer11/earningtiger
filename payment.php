@@ -73,7 +73,7 @@ require_once 'includes/header.php';
             <?php if ((float) $s['registration_amount'] > 0): ?>
                 <p class="amount-box">Amount: <strong>PKR <?= e($s['registration_amount']) ?></strong></p>
             <?php else: ?>
-                <p class="amount-box free">Registration Fee: <strong>FREE</strong> — upload receipt if instructed by admin</p>
+                <p class="amount-box">Upload your payment receipt as instructed below.</p>
             <?php endif; ?>
 
             <?php if ($errors): ?>

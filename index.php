@@ -19,7 +19,7 @@ require_once 'includes/header.php';
             <p class="hero-urdu urdu"><?= e($s['hero_title_urdu']) ?></p>
             <p class="hero-desc"><?= e($s['about_text']) ?></p>
             <div class="hero-actions">
-                <a href="signup.php" class="btn btn-primary btn-lg">Register Now — No Fee</a>
+                <a href="signup.php" class="btn btn-primary btn-lg">Register Now</a>
                 <a href="https://wa.me/92<?= preg_replace('/\D/', '', $s['whatsapp']) ?>" class="btn btn-outline btn-lg" target="_blank">WhatsApp Us</a>
             </div>
             <div class="hero-badges">
@@ -155,7 +155,7 @@ require_once 'includes/header.php';
     <div class="container text-center">
         <h2>Ready to Start Earning?</h2>
         <p>Register now — only females can apply. Students, teachers & house wives welcome!</p>
-        <a href="signup.php" class="btn btn-yellow btn-lg">Apply Now — It's Free</a>
+        <a href="signup.php" class="btn btn-yellow btn-lg">Apply Now</a>
     </div>
 </section>
 

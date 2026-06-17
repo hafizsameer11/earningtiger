@@ -88,7 +88,7 @@ $defaults = [
     'eligibility_2' => 'Teachers',
     'eligibility_3' => 'House Wives',
     'eligibility_4' => 'Only Females',
-    'eligibility_note' => 'No Fee • No Area Limit • No Age Limit • No Experience • No Specific Qualification',
+    'eligibility_note' => 'No Area Limit • No Age Limit • No Experience • No Specific Qualification',
 
     'req_1' => 'Smartphone or Laptop',
     'req_2' => 'Internet Access',

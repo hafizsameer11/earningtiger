@@ -1,6 +1,6 @@
 <?php
 
-define('MIGRATION_VERSION', 2);
+define('MIGRATION_VERSION', 3);
 
 function runMigrations(): array {
     $db = getDB();
@@ -56,6 +56,23 @@ function runMigrations(): array {
             is_active INTEGER DEFAULT 1,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP
         );
+
+        CREATE TABLE IF NOT EXISTS site_visits (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            ip_address TEXT,
+            country TEXT,
+            country_code TEXT,
+            city TEXT,
+            region TEXT,
+            page_url TEXT,
+            referrer TEXT,
+            user_agent TEXT,
+            visit_date TEXT NOT NULL,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        );
+
+        CREATE INDEX IF NOT EXISTS idx_site_visits_date ON site_visits(visit_date);
+        CREATE INDEX IF NOT EXISTS idx_site_visits_ip ON site_visits(ip_address);
     ");
 
     $messages[] = 'Database tables verified.';
@@ -118,6 +135,32 @@ function runMigrations(): array {
         'registration_amount' => '500',
         'proofs_section_title' => 'Payment Proofs',
         'proofs_section_subtitle' => 'Real payment screenshots from our registered members',
+
+        'site_logo_icon' => '🐯',
+        'features_section_urdu' => 'سوشل میڈیا پر کام کریں اور گھر بیٹھے کمائیں',
+        'feature_1_icon' => '🏠',
+        'feature_2_icon' => '⏰',
+        'feature_3_icon' => '💰',
+        'feature_4_icon' => '🎓',
+
+        'eligibility_title_urdu' => 'درخواست کون دے سکتا ہے؟',
+        'eligibility_1_urdu' => 'طلبہ',
+        'eligibility_1_icon' => '👩‍🎓',
+        'eligibility_2_urdu' => 'اساتذہ',
+        'eligibility_2_icon' => '👩‍🏫',
+        'eligibility_3_urdu' => 'گھریلو خواتین',
+        'eligibility_3_icon' => '👩‍👧',
+        'eligibility_4_urdu' => 'مرد و خواتین',
+        'eligibility_4_icon' => '👩',
+        'eligibility_4_highlight' => '1',
+
+        'requirements_title_urdu' => 'ضروریات',
+        'req_1_urdu' => 'موبائل یا لیپ ٹاپ',
+        'req_1_icon' => '📱💻',
+        'req_2_urdu' => 'انٹرنیٹ کنکشن',
+        'req_2_icon' => '📶',
+        'req_3_urdu' => 'بنیادی کمیونیکیشن اسکلز',
+        'req_3_icon' => '💬',
     ];
 
     $stmt = $db->prepare('INSERT OR IGNORE INTO settings (key_name, value) VALUES (?, ?)');

@@ -4,6 +4,11 @@ requireAdmin();
 
 $db = getDB();
 
+$filter = $_GET['filter'] ?? 'all';
+if (!array_key_exists($filter, getDateFilterOptions())) {
+    $filter = 'all';
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_status'])) {
     $id = (int) $_POST['id'];
     $status = $_POST['status'] ?? '';
@@ -12,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_status'])) {
         $stmt = $db->prepare('UPDATE registrations SET status = ?, admin_notes = ? WHERE id = ?');
         $stmt->execute([$status, $notes, $id]);
         flash('success', 'Registration updated.');
-        header('Location: users.php?view=' . $id);
+        header('Location: users.php?view=' . $id . ($filter !== 'all' ? '&filter=' . $filter : ''));
         exit;
     }
 }
@@ -25,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
     }
     $db->prepare('DELETE FROM registrations WHERE id = ?')->execute([$id]);
     flash('success', 'Registration deleted.');
-    header('Location: users.php');
+    header('Location: users.php' . ($filter !== 'all' ? '?filter=' . $filter : ''));
     exit;
 }
 
@@ -38,7 +43,16 @@ if ($viewReg && $viewReg['payment_method_id']) {
     $viewReg['payment_name'] = $pm->fetchColumn();
 }
 
-$registrations = $db->query('SELECT r.*, p.name as payment_name FROM registrations r LEFT JOIN payment_methods p ON r.payment_method_id = p.id ORDER BY r.created_at DESC')->fetchAll();
+[$where, $params] = buildDateFilterClause($filter, 'created_at');
+$countStmt = $db->prepare("SELECT COUNT(*) FROM registrations WHERE $where");
+$countStmt->execute($params);
+$filteredCount = (int) $countStmt->fetchColumn();
+
+$listStmt = $db->prepare("SELECT r.*, p.name as payment_name FROM registrations r LEFT JOIN payment_methods p ON r.payment_method_id = p.id WHERE $where ORDER BY r.created_at DESC");
+$listStmt->execute($params);
+$registrations = $listStmt->fetchAll();
+
+$listUrl = 'users.php' . ($filter !== 'all' ? '?filter=' . $filter : '');
 
 $adminTitle = 'Registrations';
 require_once 'includes/header.php';
@@ -84,7 +98,7 @@ require_once 'includes/header.php';
             <textarea name="admin_notes" rows="3"><?= e($viewReg['admin_notes'] ?? '') ?></textarea>
         </div>
         <button type="submit" class="btn btn-primary">Save Changes</button>
-        <a href="users.php" class="btn" style="margin-left:8px;background:#e2e8f0;color:#334155">Back to List</a>
+        <a href="<?= e($listUrl) ?>" class="btn" style="margin-left:8px;background:#e2e8f0;color:#334155">Back to List</a>
     </form>
 
     <form method="post" style="margin-top:16px" data-confirm="Delete this registration permanently?">
@@ -95,9 +109,11 @@ require_once 'includes/header.php';
 <?php endif; ?>
 
 <div class="admin-card">
-    <h2>All Registrations (<?= count($registrations) ?>)</h2>
+    <h2>Registrations (<?= $filteredCount ?>)</h2>
+    <?php renderDateFilter($filter, 'users.php'); ?>
+
     <?php if (empty($registrations)): ?>
-        <p class="text-muted">No registrations yet.</p>
+        <p class="text-muted">No registrations for this period.</p>
     <?php else: ?>
         <table class="admin-table">
             <thead>
@@ -106,9 +122,9 @@ require_once 'includes/header.php';
                     <th>Name</th>
                     <th>Email</th>
                     <th>Phone</th>
+                    <th>Gender</th>
                     <th>Shift</th>
                     <th>Payment</th>
-                    <th>Receipt</th>
                     <th>Status</th>
                     <th>Date</th>
                     <th>Action</th>
@@ -121,12 +137,12 @@ require_once 'includes/header.php';
                         <td><?= e($r['full_name']) ?></td>
                         <td><?= e($r['email']) ?></td>
                         <td><?= e($r['phone']) ?></td>
+                        <td><?= e(ucfirst($r['gender'] ?? '—')) ?></td>
                         <td><?= e($r['shift_type']) ?></td>
                         <td><?= e($r['payment_name'] ?? '—') ?></td>
-                        <td><?= $r['receipt_file'] ? '✓' : '—' ?></td>
                         <td><span class="status-badge status-<?= e($r['status']) ?>"><?= e(ucfirst($r['status'])) ?></span></td>
                         <td><?= formatDate($r['created_at']) ?></td>
-                        <td><a href="users.php?view=<?= $r['id'] ?>">View</a></td>
+                        <td><a href="users.php?view=<?= $r['id'] ?><?= $filter !== 'all' ? '&filter=' . $filter : '' ?>">View</a></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>

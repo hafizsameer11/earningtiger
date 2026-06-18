@@ -8,6 +8,10 @@ $pending = $db->query("SELECT COUNT(*) FROM registrations WHERE status IN ('pend
 $approved = $db->query("SELECT COUNT(*) FROM registrations WHERE status = 'approved'")->fetchColumn();
 $rejected = $db->query("SELECT COUNT(*) FROM registrations WHERE status = 'rejected'")->fetchColumn();
 
+$todayRegs = $db->query("SELECT COUNT(*) FROM registrations WHERE date(created_at) = date('now', 'localtime')")->fetchColumn();
+$visitStats = getVisitStats('today');
+$visitStats7 = getVisitStats('7days');
+
 $recent = $db->query('SELECT r.*, p.name as payment_name FROM registrations r LEFT JOIN payment_methods p ON r.payment_method_id = p.id ORDER BY r.created_at DESC LIMIT 10')->fetchAll();
 
 $adminTitle = 'Dashboard';
@@ -17,9 +21,18 @@ require_once 'includes/header.php';
 <div class="stats-grid">
     <div class="stat-card"><h3><?= $total ?></h3><p>Total Registrations</p></div>
     <div class="stat-card"><h3><?= $pending ?></h3><p>Pending Review</p></div>
+    <div class="stat-card"><h3><?= $todayRegs ?></h3><p>Registrations Today</p></div>
     <div class="stat-card"><h3><?= $approved ?></h3><p>Approved</p></div>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card"><h3><?= $visitStats['total'] ?></h3><p>Visits Today</p></div>
+    <div class="stat-card"><h3><?= $visitStats['unique'] ?></h3><p>Unique Visitors Today</p></div>
+    <div class="stat-card"><h3><?= $visitStats7['total'] ?></h3><p>Visits (7 Days)</p></div>
     <div class="stat-card"><h3><?= $rejected ?></h3><p>Rejected</p></div>
 </div>
+
+<p style="margin-bottom:24px"><a href="visitors.php">View full visitor analytics →</a> · <a href="users.php?filter=today">Today's registrations →</a></p>
 
 <div class="admin-card">
     <h2>Recent Registrations</h2>

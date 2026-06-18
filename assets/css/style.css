@@ -779,6 +779,36 @@ body.nav-open .nav-overlay { display: block; }
 .inline-form { display: flex; gap: 8px; align-items: flex-end; flex-wrap: wrap; }
 .inline-form .form-group { flex: 1; min-width: 140px; margin-bottom: 0; }
 
+.filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.filter-tab {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 50px;
+    background: var(--bg);
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 600;
+    border: 2px solid var(--border);
+    transition: all 0.2s;
+}
+
+.filter-tab:hover { border-color: var(--teal); color: var(--teal); }
+.filter-tab.active { background: var(--teal); color: white; border-color: var(--teal); }
+
+.urdu-input { font-family: 'Noto Nastaliq Urdu', serif; direction: rtl; font-size: 1.05rem; }
+.icon-input { font-size: 1.25rem; }
+.icon-preview { display: block; margin-top: 6px; color: var(--text-muted); }
+.icon-preview span { font-size: 1.5rem; }
+
+.elig-item span:first-child { font-size: 2rem; line-height: 1.2; }
+
 /* Responsive */
 @media (max-width: 992px) {
     .hero-grid { grid-template-columns: 1fr; text-align: center; }
@@ -909,6 +939,7 @@ body.nav-open .nav-overlay { display: block; }
     .hero h1 { font-size: 1.45rem; }
     .shift-badge { position: static; display: inline-block; margin-bottom: 10px; }
     .salary-note { font-size: 0.88rem; padding: 0 8px; }
-    .success-card { padding: 40px 20px; }
+    .filter-bar { gap: 6px; }
+    .filter-tab { padding: 8px 12px; font-size: 0.8rem; }
     .success-icon { width: 64px; height: 64px; font-size: 2rem; }
 }

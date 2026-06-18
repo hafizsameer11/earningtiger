@@ -38,26 +38,26 @@ require_once 'includes/header.php';
     <div class="container">
         <div class="section-header">
             <h2>Work on <span class="highlight">Social Media</span></h2>
-            <p class="urdu">سوشل میڈیا پر کام کریں اور گھر بیٹھے کمائیں</p>
+            <p class="urdu"><?= e($s['features_section_urdu'] ?? '') ?></p>
         </div>
         <div class="features-grid">
             <div class="feature-card">
-                <div class="feature-icon">🏠</div>
+                <div class="feature-icon"><?= e($s['feature_1_icon'] ?? '🏠') ?></div>
                 <h3><?= e($s['feature_1_title']) ?></h3>
                 <p class="urdu"><?= e($s['feature_1_urdu']) ?></p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">⏰</div>
+                <div class="feature-icon"><?= e($s['feature_2_icon'] ?? '⏰') ?></div>
                 <h3><?= e($s['feature_2_title']) ?></h3>
                 <p class="urdu"><?= e($s['feature_2_urdu']) ?></p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">💰</div>
+                <div class="feature-icon"><?= e($s['feature_3_icon'] ?? '💰') ?></div>
                 <h3><?= e($s['feature_3_title']) ?></h3>
                 <p class="urdu"><?= e($s['feature_3_urdu']) ?></p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">🎓</div>
+                <div class="feature-icon"><?= e($s['feature_4_icon'] ?? '🎓') ?></div>
                 <h3><?= e($s['feature_4_title']) ?></h3>
                 <p class="urdu"><?= e($s['feature_4_urdu']) ?></p>
             </div>
@@ -101,12 +101,12 @@ require_once 'includes/header.php';
 <section class="eligibility section">
     <div class="container">
         <div class="eligibility-box">
-            <h2><?= e($s['eligibility_title']) ?> <span class="urdu">/ درخواست کون دے سکتا ہے؟</span></h2>
+            <h2><?= e($s['eligibility_title']) ?> <span class="urdu">/ <?= e($s['eligibility_title_urdu'] ?? '') ?></span></h2>
             <div class="eligibility-grid">
-                <div class="elig-item"><span>👩‍🎓</span><strong><?= e($s['eligibility_1']) ?></strong><span class="urdu">طلبہ</span></div>
-                <div class="elig-item"><span>👩‍🏫</span><strong><?= e($s['eligibility_2']) ?></strong><span class="urdu">اساتذہ</span></div>
-                <div class="elig-item"><span>👩‍👧</span><strong><?= e($s['eligibility_3']) ?></strong><span class="urdu">گھریلو خواتین</span></div>
-                <div class="elig-item highlight-item"><span>👩</span><strong><?= e($s['eligibility_4']) ?></strong><span class="urdu">صرف خواتین</span></div>
+                <div class="elig-item"><span><?= e($s['eligibility_1_icon'] ?? '👩‍🎓') ?></span><strong><?= e($s['eligibility_1']) ?></strong><span class="urdu"><?= e($s['eligibility_1_urdu'] ?? '') ?></span></div>
+                <div class="elig-item"><span><?= e($s['eligibility_2_icon'] ?? '👩‍🏫') ?></span><strong><?= e($s['eligibility_2']) ?></strong><span class="urdu"><?= e($s['eligibility_2_urdu'] ?? '') ?></span></div>
+                <div class="elig-item"><span><?= e($s['eligibility_3_icon'] ?? '👩‍👧') ?></span><strong><?= e($s['eligibility_3']) ?></strong><span class="urdu"><?= e($s['eligibility_3_urdu'] ?? '') ?></span></div>
+                <div class="elig-item <?= ($s['eligibility_4_highlight'] ?? '1') === '1' ? 'highlight-item' : '' ?>"><span><?= e($s['eligibility_4_icon'] ?? '👩') ?></span><strong><?= e($s['eligibility_4']) ?></strong><span class="urdu"><?= e($s['eligibility_4_urdu'] ?? '') ?></span></div>
             </div>
             <p class="eligibility-note"><?= e($s['eligibility_note']) ?></p>
         </div>
@@ -116,12 +116,12 @@ require_once 'includes/header.php';
 <section class="requirements section section-alt">
     <div class="container">
         <div class="section-header">
-            <h2>Requirements <span class="urdu">/ ضروریات</span></h2>
+            <h2>Requirements <span class="urdu">/ <?= e($s['requirements_title_urdu'] ?? '') ?></span></h2>
         </div>
         <div class="req-grid">
-            <div class="req-card"><span>📱💻</span><h4><?= e($s['req_1']) ?></h4><p class="urdu">موبائل یا لیپ ٹاپ</p></div>
-            <div class="req-card"><span>📶</span><h4><?= e($s['req_2']) ?></h4><p class="urdu">انٹرنیٹ کنکشن</p></div>
-            <div class="req-card"><span>💬</span><h4><?= e($s['req_3']) ?></h4><p class="urdu">بنیادی کمیونیکیشن اسکلز</p></div>
+            <div class="req-card"><span><?= e($s['req_1_icon'] ?? '📱💻') ?></span><h4><?= e($s['req_1']) ?></h4><p class="urdu"><?= e($s['req_1_urdu'] ?? '') ?></p></div>
+            <div class="req-card"><span><?= e($s['req_2_icon'] ?? '📶') ?></span><h4><?= e($s['req_2']) ?></h4><p class="urdu"><?= e($s['req_2_urdu'] ?? '') ?></p></div>
+            <div class="req-card"><span><?= e($s['req_3_icon'] ?? '💬') ?></span><h4><?= e($s['req_3']) ?></h4><p class="urdu"><?= e($s['req_3_urdu'] ?? '') ?></p></div>
         </div>
     </div>
 </section>

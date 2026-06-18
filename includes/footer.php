@@ -2,7 +2,7 @@
 <footer class="site-footer">
     <div class="container footer-grid">
         <div class="footer-brand">
-            <h3>🐯 <?= e(getSetting('site_name', APP_NAME)) ?></h3>
+            <h3><?= e($s['site_logo_icon'] ?? '🐯') ?> <?= e(getSetting('site_name', APP_NAME)) ?></h3>
             <p><?= e(getSetting('tagline')) ?></p>
             <p class="urdu"><?= e(getSetting('hero_title_urdu')) ?></p>
         </div>
@@ -35,6 +35,7 @@
         </div>
     </div>
 </footer>
+<?php require_once __DIR__ . '/tracker.php'; ?>
 <script src="assets/js/main.js"></script>
 </body>
 </html>

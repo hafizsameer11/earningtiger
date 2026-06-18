@@ -18,7 +18,7 @@ $currentPage = basename($_SERVER['PHP_SELF'], '.php');
 <header class="site-header">
     <div class="container header-inner">
         <a href="index.php" class="logo">
-            <span class="logo-icon">🐯</span>
+            <span class="logo-icon"><?= e($s['site_logo_icon'] ?? '🐯') ?></span>
             <span class="logo-text"><?= e($siteName) ?></span>
         </a>
         <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="main-nav">

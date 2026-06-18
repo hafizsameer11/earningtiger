@@ -7,6 +7,7 @@ if (!file_exists(DB_PATH)) {
 }
 
 $s = getAllSettings();
+$proofs = getActivePaymentProofs();
 $pageTitle = 'Home';
 require_once 'includes/header.php';
 ?>
@@ -19,8 +20,8 @@ require_once 'includes/header.php';
             <p class="hero-urdu urdu"><?= e($s['hero_title_urdu']) ?></p>
             <p class="hero-desc"><?= e($s['about_text']) ?></p>
             <div class="hero-actions">
-                <a href="signup.php" class="btn btn-primary btn-lg">Register Now</a>
-                <a href="https://wa.me/92<?= preg_replace('/\D/', '', $s['whatsapp']) ?>" class="btn btn-outline btn-lg" target="_blank">WhatsApp Us</a>
+                <a href="signup.php" class="btn btn-hero btn-lg">Register Now</a>
+                <a href="https://wa.me/92<?= preg_replace('/\D/', '', $s['whatsapp']) ?>" class="btn btn-hero btn-lg" target="_blank" rel="noopener">WhatsApp Us</a>
             </div>
             <div class="hero-badges">
                 <span>✓ <?= e($s['company_registered']) ?></span>
@@ -125,6 +126,36 @@ require_once 'includes/header.php';
     </div>
 </section>
 
+<?php if (!empty($proofs)): ?>
+<section id="proofs" class="proofs section section-alt">
+    <div class="container">
+        <div class="section-header">
+            <h2><?= e($s['proofs_section_title'] ?? 'Payment Proofs') ?></h2>
+            <p><?= e($s['proofs_section_subtitle'] ?? 'Real payment screenshots from our registered members') ?></p>
+        </div>
+        <div class="proof-slider" data-slider>
+            <button type="button" class="slider-btn slider-prev" aria-label="Previous">‹</button>
+            <div class="slider-viewport">
+                <div class="slider-track">
+                    <?php foreach ($proofs as $proof): ?>
+                        <div class="slider-slide">
+                            <div class="proof-card">
+                                <img src="<?= e(proofImageUrl($proof['image_file'])) ?>" alt="<?= e($proof['title'] ?: 'Payment proof') ?>" loading="lazy">
+                                <?php if ($proof['title']): ?>
+                                    <p class="proof-caption"><?= e($proof['title']) ?></p>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+            <button type="button" class="slider-btn slider-next" aria-label="Next">›</button>
+            <div class="slider-dots" data-slider-dots></div>
+        </div>
+    </div>
+</section>
+<?php endif; ?>
+
 <section id="offices" class="offices section">
     <div class="container">
         <div class="section-header">
@@ -154,7 +185,7 @@ require_once 'includes/header.php';
 <section class="cta section section-teal">
     <div class="container text-center">
         <h2>Ready to Start Earning?</h2>
-        <p>Register now — only females can apply. Students, teachers & house wives welcome!</p>
+        <p>Register now — students, teachers & house wives welcome!</p>
         <a href="signup.php" class="btn btn-yellow btn-lg">Apply Now</a>
     </div>
 </section>

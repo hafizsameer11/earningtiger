@@ -23,6 +23,7 @@ $groups = [
     'Requirements' => ['req_1', 'req_2', 'req_3'],
     'Offices' => ['office_title', 'office_main_image', 'office_1_name', 'office_1_image', 'office_2_name', 'office_2_image', 'office_3_name', 'office_3_image'],
     'Social Links' => ['facebook', 'instagram'],
+    'Payment Proofs Slider' => ['proofs_section_title', 'proofs_section_subtitle'],
 ];
 
 $labels = [
@@ -44,6 +45,8 @@ $labels = [
     'office_main_image' => 'Main Office Image URL',
     'facebook' => 'Facebook URL',
     'instagram' => 'Instagram URL',
+    'proofs_section_title' => 'Payment Proofs Section Title',
+    'proofs_section_subtitle' => 'Payment Proofs Section Subtitle',
 ];
 
 $adminTitle = 'Site Settings';

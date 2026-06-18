@@ -21,16 +21,18 @@ $currentPage = basename($_SERVER['PHP_SELF'], '.php');
             <span class="logo-icon">🐯</span>
             <span class="logo-text"><?= e($siteName) ?></span>
         </a>
-        <button class="nav-toggle" aria-label="Menu" onclick="document.body.classList.toggle('nav-open')">
+        <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="main-nav">
             <span></span><span></span><span></span>
         </button>
-        <nav class="main-nav">
+        <nav class="main-nav" id="main-nav">
             <a href="index.php" class="<?= $currentPage === 'index' ? 'active' : '' ?>">Home</a>
             <a href="index.php#shifts">Shifts</a>
+            <a href="index.php#proofs">Payment Proofs</a>
             <a href="index.php#offices">Offices</a>
             <a href="index.php#contact">Contact</a>
             <a href="signup.php" class="btn btn-primary btn-sm">Apply Now</a>
         </nav>
     </div>
+    <div class="nav-overlay" aria-hidden="true"></div>
 </header>
 <main>

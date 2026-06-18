@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($name === '') $errors[] = 'Full name is required.';
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = 'Valid email is required.';
     if ($phone === '') $errors[] = 'Phone number is required.';
-    if ($gender !== 'female') $errors[] = 'Only females can apply for this job.';
+    if (!in_array($gender, ['male', 'female'], true)) $errors[] = 'Please select your gender.';
     if (!in_array($shift, ['full-time', 'part-time', 'home-based'], true)) $errors[] = 'Please select a shift.';
 
     if (empty($errors)) {
@@ -41,7 +41,7 @@ require_once 'includes/header.php';
     <div class="container container-sm">
         <div class="form-card">
             <h1>Register for <?= e($s['site_name']) ?></h1>
-            <p class="form-subtitle">Fill in your details to apply. <?= e($s['eligibility_4']) ?> only.</p>
+            <p class="form-subtitle">Fill in your details to apply.</p>
 
             <?php if ($errors): ?>
                 <div class="alert alert-error">
@@ -72,9 +72,21 @@ require_once 'includes/header.php';
                 </div>
                 <div class="form-group">
                     <label>Gender *</label>
-                    <div class="radio-group">
-                        <label class="radio-label"><input type="radio" name="gender" value="female" required <?= ($_POST['gender'] ?? '') === 'female' ? 'checked' : '' ?>> Female</label>
-                        <label class="radio-label disabled"><input type="radio" name="gender" value="male" disabled> Male (Not eligible)</label>
+                    <div class="gender-options">
+                        <label class="gender-option">
+                            <input type="radio" name="gender" value="female" required <?= ($_POST['gender'] ?? '') === 'female' ? 'checked' : '' ?>>
+                            <span class="gender-box">
+                                <span class="gender-icon">👩</span>
+                                <span class="gender-label">Female</span>
+                            </span>
+                        </label>
+                        <label class="gender-option">
+                            <input type="radio" name="gender" value="male" required <?= ($_POST['gender'] ?? '') === 'male' ? 'checked' : '' ?>>
+                            <span class="gender-box">
+                                <span class="gender-icon">👨</span>
+                                <span class="gender-label">Male</span>
+                            </span>
+                        </label>
                     </div>
                 </div>
                 <div class="form-group">

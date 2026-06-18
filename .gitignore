@@ -1,0 +1,6 @@
+data/*.db
+uploads/receipts/*
+!uploads/receipts/.htaccess
+!uploads/receipts/index.php
+uploads/proofs/*
+!uploads/proofs/index.php

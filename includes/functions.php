@@ -62,7 +62,7 @@ function formatDate(string $date): string {
     return date('d M Y, h:i A', strtotime($date));
 }
 
-function uploadReceipt(array $file): array {
+function uploadImage(array $file, string $dir, string $prefix, bool $allowPdf = false): array {
     if ($file['error'] !== UPLOAD_ERR_OK) {
         return ['success' => false, 'error' => 'Upload failed. Please try again.'];
     }
@@ -70,28 +70,59 @@ function uploadReceipt(array $file): array {
         return ['success' => false, 'error' => 'File too large. Maximum 5MB allowed.'];
     }
 
-    $allowed = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'application/pdf'];
+    $allowed = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+    if ($allowPdf) {
+        $allowed[] = 'application/pdf';
+    }
+
     $finfo = finfo_open(FILEINFO_MIME_TYPE);
     $mime = finfo_file($finfo, $file['tmp_name']);
     finfo_close($finfo);
 
     if (!in_array($mime, $allowed, true)) {
-        return ['success' => false, 'error' => 'Invalid file type. Use JPG, PNG, WEBP, GIF or PDF.'];
+        return ['success' => false, 'error' => 'Invalid file type. Use JPG, PNG, WEBP or GIF.'];
     }
 
-    if (!is_dir(UPLOAD_PATH)) {
-        mkdir(UPLOAD_PATH, 0755, true);
+    if (!is_dir($dir)) {
+        mkdir($dir, 0755, true);
     }
 
     $ext = pathinfo($file['name'], PATHINFO_EXTENSION) ?: 'jpg';
-    $filename = uniqid('receipt_', true) . '.' . strtolower($ext);
-    $dest = UPLOAD_PATH . '/' . $filename;
+    $filename = uniqid($prefix, true) . '.' . strtolower($ext);
+    $dest = $dir . '/' . $filename;
 
     if (!move_uploaded_file($file['tmp_name'], $dest)) {
         return ['success' => false, 'error' => 'Could not save file.'];
     }
 
     return ['success' => true, 'filename' => $filename];
+}
+
+function uploadReceipt(array $file): array {
+    $result = uploadImage($file, UPLOAD_PATH, 'receipt_', true);
+    if (!$result['success'] && str_contains($result['error'] ?? '', 'Invalid file type')) {
+        return ['success' => false, 'error' => 'Invalid file type. Use JPG, PNG, WEBP, GIF or PDF.'];
+    }
+    return $result;
+}
+
+function getActivePaymentProofs(): array {
+    return getDB()->query('SELECT * FROM payment_proofs WHERE is_active = 1 ORDER BY sort_order, id')->fetchAll();
+}
+
+function getAllPaymentProofs(): array {
+    return getDB()->query('SELECT * FROM payment_proofs ORDER BY sort_order, id')->fetchAll();
+}
+
+function getPaymentProofById(int $id): ?array {
+    $stmt = getDB()->prepare('SELECT * FROM payment_proofs WHERE id = ?');
+    $stmt->execute([$id]);
+    $row = $stmt->fetch();
+    return $row ?: null;
+}
+
+function proofImageUrl(string $filename): string {
+    return PROOFS_UPLOAD_URL . '/' . rawurlencode($filename);
 }
 
 function getRegistrationById(int $id): ?array {

@@ -29,6 +29,7 @@ $flash = getFlash();
         <a href="index.php" class="<?= $currentAdminPage === 'index' ? 'active' : '' ?>">Dashboard</a>
         <a href="users.php" class="<?= $currentAdminPage === 'users' ? 'active' : '' ?>">Registrations</a>
         <a href="payments.php" class="<?= $currentAdminPage === 'payments' ? 'active' : '' ?>">Payment Methods</a>
+        <a href="proofs.php" class="<?= $currentAdminPage === 'proofs' ? 'active' : '' ?>">Payment Proofs</a>
         <a href="settings.php" class="<?= $currentAdminPage === 'settings' ? 'active' : '' ?>">Site Settings</a>
         <a href="password.php" class="<?= $currentAdminPage === 'password' ? 'active' : '' ?>">Change Password</a>
     </nav>

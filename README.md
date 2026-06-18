@@ -2,7 +2,14 @@
 
 Online job opportunity platform with user registration, payment receipt upload, and PHP admin panel.
 
-## Setup
+## Server update (after uploading new files)
+
+```bash
+php update.php
+```
+
+Or open `https://yoursite.com/update.php` in the browser once, then delete/protect the file.
+
 
 ```bash
 cd d:\projects\new-erning

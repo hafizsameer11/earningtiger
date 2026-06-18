@@ -143,13 +143,13 @@ function setting(string $key, string $default = ''): string {
 function buildDateFilterClause(string $filter, string $column = 'created_at'): array {
     switch ($filter) {
         case 'today':
-            return ["date($column) = date('now', 'localtime')", []];
+            return ["date($column) = ?", [date('Y-m-d')]];
         case 'yesterday':
-            return ["date($column) = date('now', '-1 day', 'localtime')", []];
+            return ["date($column) = ?", [date('Y-m-d', strtotime('-1 day'))]];
         case '7days':
-            return ["date($column) >= date('now', '-6 days', 'localtime')", []];
+            return ["date($column) >= ?", [date('Y-m-d', strtotime('-6 days'))]];
         case '30days':
-            return ["date($column) >= date('now', '-29 days', 'localtime')", []];
+            return ["date($column) >= ?", [date('Y-m-d', strtotime('-29 days'))]];
         default:
             return ['1=1', []];
     }
@@ -168,13 +168,15 @@ function getDateFilterOptions(): array {
 function renderDateFilter(string $current, string $baseUrl, string $param = 'filter'): void {
     $filters = getDateFilterOptions();
     $base = strtok($baseUrl, '?') ?: $baseUrl;
+    echo '<div class="filter-toolbar">';
+    echo '<span class="filter-toolbar-label">Filter by date:</span>';
     echo '<div class="filter-bar">';
     foreach ($filters as $key => $label) {
         $active = $current === $key ? ' active' : '';
         $href = $key === 'all' ? $base : $base . '?' . $param . '=' . $key;
         echo '<a href="' . e($href) . '" class="filter-tab' . $active . '">' . e($label) . '</a>';
     }
-    echo '</div>';
+    echo '</div></div>';
 }
 
 function getClientIp(): string {

@@ -8,7 +8,9 @@ $pending = $db->query("SELECT COUNT(*) FROM registrations WHERE status IN ('pend
 $approved = $db->query("SELECT COUNT(*) FROM registrations WHERE status = 'approved'")->fetchColumn();
 $rejected = $db->query("SELECT COUNT(*) FROM registrations WHERE status = 'rejected'")->fetchColumn();
 
-$todayRegs = $db->query("SELECT COUNT(*) FROM registrations WHERE date(created_at) = date('now', 'localtime')")->fetchColumn();
+$todayRegs = $db->prepare("SELECT COUNT(*) FROM registrations WHERE date(created_at) = ?");
+$todayRegs->execute([date('Y-m-d')]);
+$todayRegs = (int) $todayRegs->fetchColumn();
 $visitStats = getVisitStats('today');
 $visitStats7 = getVisitStats('7days');
 

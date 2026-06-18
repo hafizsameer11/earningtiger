@@ -47,6 +47,7 @@ if ($viewReg && $viewReg['payment_method_id']) {
 $countStmt = $db->prepare("SELECT COUNT(*) FROM registrations WHERE $countWhere");
 $countStmt->execute($params);
 $filteredCount = (int) $countStmt->fetchColumn();
+$totalAll = (int) $db->query('SELECT COUNT(*) FROM registrations')->fetchColumn();
 
 [$listWhere, $listParams] = buildDateFilterClause($filter, 'r.created_at');
 $listStmt = $db->prepare("SELECT r.*, p.name as payment_name FROM registrations r LEFT JOIN payment_methods p ON r.payment_method_id = p.id WHERE $listWhere ORDER BY r.created_at DESC");
@@ -110,11 +111,24 @@ require_once 'includes/header.php';
 <?php endif; ?>
 
 <div class="admin-card">
-    <h2>Registrations (<?= $filteredCount ?>)</h2>
+    <h2>Registrations</h2>
+    <p class="filter-summary">
+        Showing <strong><?= $filteredCount ?></strong>
+        <?= $filter !== 'all' ? 'for <strong>' . e(getDateFilterOptions()[$filter]) . '</strong> (' . $totalAll . ' total)' : 'total' ?>
+    </p>
     <?php renderDateFilter($filter, 'users.php'); ?>
 
     <?php if (empty($registrations)): ?>
-        <p class="text-muted">No registrations for this period.</p>
+        <p class="text-muted empty-state">
+            <?php if ($totalAll === 0): ?>
+                No registrations yet. They will appear here when users sign up.
+            <?php elseif ($filter !== 'all'): ?>
+                No registrations for <strong><?= e(getDateFilterOptions()[$filter]) ?></strong>.
+                <a href="users.php">View all <?= $totalAll ?> registrations</a>
+            <?php else: ?>
+                No registrations found.
+            <?php endif; ?>
+        </p>
     <?php else: ?>
         <table class="admin-table">
             <thead>

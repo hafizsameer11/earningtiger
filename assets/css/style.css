@@ -779,28 +779,80 @@ body.nav-open .nav-overlay { display: block; }
 .inline-form { display: flex; gap: 8px; align-items: flex-end; flex-wrap: wrap; }
 .inline-form .form-group { flex: 1; min-width: 140px; margin-bottom: 0; }
 
+.filter-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding: 14px 16px;
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.filter-toolbar-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--dark);
+    white-space: nowrap;
+}
+
+.admin-content .filter-bar,
 .filter-bar {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    margin-bottom: 20px;
+    margin-bottom: 0;
 }
 
+.admin-content .filter-tab,
 .filter-tab {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     padding: 8px 16px;
     border-radius: 50px;
-    background: var(--bg);
-    color: var(--text-muted);
-    text-decoration: none;
+    background: #ffffff;
+    color: var(--text);
+    text-decoration: none !important;
     font-size: 0.875rem;
     font-weight: 600;
     border: 2px solid var(--border);
     transition: all 0.2s;
+    white-space: nowrap;
+    line-height: 1.2;
 }
 
-.filter-tab:hover { border-color: var(--teal); color: var(--teal); }
-.filter-tab.active { background: var(--teal); color: white; border-color: var(--teal); }
+.admin-content .filter-tab:hover,
+.filter-tab:hover {
+    border-color: var(--teal);
+    color: var(--teal);
+    background: #f0fdfa;
+}
+
+.admin-content .filter-tab.active,
+.filter-tab.active {
+    background: var(--teal);
+    color: #ffffff !important;
+    border-color: var(--teal);
+}
+
+.filter-summary {
+    margin-bottom: 12px;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+.empty-state {
+    padding: 24px 0 8px;
+    line-height: 1.6;
+}
+
+.empty-state a {
+    color: var(--teal);
+    font-weight: 600;
+}
 
 .urdu-input { font-family: 'Noto Nastaliq Urdu', serif; direction: rtl; font-size: 1.05rem; }
 .icon-input { font-size: 1.25rem; }

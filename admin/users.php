@@ -43,13 +43,14 @@ if ($viewReg && $viewReg['payment_method_id']) {
     $viewReg['payment_name'] = $pm->fetchColumn();
 }
 
-[$where, $params] = buildDateFilterClause($filter, 'created_at');
-$countStmt = $db->prepare("SELECT COUNT(*) FROM registrations WHERE $where");
+[$countWhere, $params] = buildDateFilterClause($filter, 'created_at');
+$countStmt = $db->prepare("SELECT COUNT(*) FROM registrations WHERE $countWhere");
 $countStmt->execute($params);
 $filteredCount = (int) $countStmt->fetchColumn();
 
-$listStmt = $db->prepare("SELECT r.*, p.name as payment_name FROM registrations r LEFT JOIN payment_methods p ON r.payment_method_id = p.id WHERE $where ORDER BY r.created_at DESC");
-$listStmt->execute($params);
+[$listWhere, $listParams] = buildDateFilterClause($filter, 'r.created_at');
+$listStmt = $db->prepare("SELECT r.*, p.name as payment_name FROM registrations r LEFT JOIN payment_methods p ON r.payment_method_id = p.id WHERE $listWhere ORDER BY r.created_at DESC");
+$listStmt->execute($listParams);
 $registrations = $listStmt->fetchAll();
 
 $listUrl = 'users.php' . ($filter !== 'all' ? '?filter=' . $filter : '');

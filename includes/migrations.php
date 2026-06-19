@@ -84,6 +84,7 @@ function runMigrations(): array {
         'hero_subtitle' => 'FEMALE STAFF NEEDED — Work From Home on Computer or Mobile',
         'hero_title_urdu' => 'خوشخبری! کمپیوٹر یا موبائل پر کام کرنے کے لیے لڑکیوں کی ضرورت ہے',
         'whatsapp' => '0309-7000767',
+        'whatsapp_country_code' => '92',
         'registration_fee' => '0',
         'company_registered' => 'Company Registered (FBR & SSL)',
         'hero_image' => 'https://aqservices.pk/wp-content/uploads/2024/12/Alqalam-1-794x1024.png',

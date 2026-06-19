@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $s = getAllSettings();
 
 $groups = [
-    'General' => ['site_name', 'site_logo_icon', 'tagline', 'about_text', 'company_registered', 'contact_email', 'whatsapp', 'registration_amount', 'payment_instructions'],
+    'General' => ['site_name', 'site_logo_icon', 'tagline', 'about_text', 'company_registered', 'contact_email', 'whatsapp', 'whatsapp_country_code', 'registration_amount', 'payment_instructions'],
     'Hero Section' => ['hero_title', 'hero_subtitle', 'hero_title_urdu', 'hero_image', 'banner_image'],
     'Features (English, Urdu & Icons)' => [
         'features_section_urdu',
@@ -52,7 +52,8 @@ $labels = [
     'eligibility_4_highlight' => 'Highlight 4th Eligibility Card (1 = yes, 0 = no)',
     'proofs_section_title' => 'Payment Proofs Section Title',
     'proofs_section_subtitle' => 'Payment Proofs Section Subtitle',
-    'registration_amount' => 'Registration Amount (PKR, 0 = free)',
+    'whatsapp' => 'WhatsApp Number (e.g. +91 9876543210 or 03XX-XXXXXXX)',
+    'whatsapp_country_code' => 'Country Code for local numbers (e.g. 92 for Pakistan, 91 for India)',
 ];
 
 $urduFields = ['hero_title_urdu', 'features_section_urdu', 'feature_1_urdu', 'feature_2_urdu', 'feature_3_urdu', 'feature_4_urdu', 'eligibility_title_urdu', 'eligibility_1_urdu', 'eligibility_2_urdu', 'eligibility_3_urdu', 'eligibility_4_urdu', 'eligibility_note', 'requirements_title_urdu', 'req_1_urdu', 'req_2_urdu', 'req_3_urdu', 'about_text', 'payment_instructions'];

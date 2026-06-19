@@ -24,8 +24,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!in_array($shift, ['full-time', 'part-time', 'home-based'], true)) $errors[] = 'Please select a shift.';
 
     if (empty($errors)) {
-        $stmt = getDB()->prepare('INSERT INTO registrations (full_name, email, phone, city, gender, shift_type) VALUES (?, ?, ?, ?, ?, ?)');
-        $stmt->execute([$name, $email, $phone, $city, $gender, $shift]);
+        $stmt = getDB()->prepare('INSERT INTO registrations (full_name, email, phone, city, gender, shift_type, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)');
+        $stmt->execute([$name, $email, $phone, $city, $gender, $shift, date('Y-m-d H:i:s')]);
         $regId = (int) getDB()->lastInsertId();
         $_SESSION['registration_id'] = $regId;
         header('Location: payment.php');

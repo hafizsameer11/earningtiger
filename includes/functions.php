@@ -140,19 +140,53 @@ function setting(string $key, string $default = ''): string {
     return $cache[$key] ?? $default;
 }
 
-function buildDateFilterClause(string $filter, string $column = 'created_at'): array {
+function buildDateFilterClause(string $filter, string $column = 'created_at', bool $dateOnly = false): array {
+    if ($dateOnly) {
+        switch ($filter) {
+            case 'today':
+                return ["$column = ?", [date('Y-m-d')]];
+            case 'yesterday':
+                return ["$column = ?", [date('Y-m-d', strtotime('-1 day'))]];
+            case '7days':
+                return ["$column >= ?", [date('Y-m-d', strtotime('-6 days'))]];
+            case '30days':
+                return ["$column >= ?", [date('Y-m-d', strtotime('-29 days'))]];
+            default:
+                return ['1=1', []];
+        }
+    }
+
+    $todayStart = date('Y-m-d 00:00:00');
+    $tomorrowStart = date('Y-m-d 00:00:00', strtotime('+1 day'));
+    $yesterdayStart = date('Y-m-d 00:00:00', strtotime('-1 day'));
+
     switch ($filter) {
         case 'today':
-            return ["date($column) = ?", [date('Y-m-d')]];
+            return ["$column >= ? AND $column < ?", [$todayStart, $tomorrowStart]];
         case 'yesterday':
-            return ["date($column) = ?", [date('Y-m-d', strtotime('-1 day'))]];
+            return ["$column >= ? AND $column < ?", [$yesterdayStart, $todayStart]];
         case '7days':
-            return ["date($column) >= ?", [date('Y-m-d', strtotime('-6 days'))]];
+            return ["$column >= ?", [date('Y-m-d 00:00:00', strtotime('-6 days'))]];
         case '30days':
-            return ["date($column) >= ?", [date('Y-m-d', strtotime('-29 days'))]];
+            return ["$column >= ?", [date('Y-m-d 00:00:00', strtotime('-29 days'))]];
         default:
             return ['1=1', []];
     }
+}
+
+function whatsappLink(string $number): string {
+    $digits = preg_replace('/\D/', '', $number);
+    if ($digits === '') {
+        return '#';
+    }
+    // Local format (03XX...) — prepend country code from settings
+    if (str_starts_with($digits, '0')) {
+        $cc = preg_replace('/\D/', '', getSetting('whatsapp_country_code', '92'));
+        if ($cc !== '') {
+            $digits = $cc . substr($digits, 1);
+        }
+    }
+    return 'https://wa.me/' . $digits;
 }
 
 function getDateFilterOptions(): array {
@@ -167,13 +201,14 @@ function getDateFilterOptions(): array {
 
 function renderDateFilter(string $current, string $baseUrl, string $param = 'filter'): void {
     $filters = getDateFilterOptions();
-    $base = strtok($baseUrl, '?') ?: $baseUrl;
+    $path = parse_url($baseUrl, PHP_URL_PATH) ?: $baseUrl;
+    $path = basename($path);
     echo '<div class="filter-toolbar">';
     echo '<span class="filter-toolbar-label">Filter by date:</span>';
     echo '<div class="filter-bar">';
     foreach ($filters as $key => $label) {
         $active = $current === $key ? ' active' : '';
-        $href = $key === 'all' ? $base : $base . '?' . $param . '=' . $key;
+        $href = $key === 'all' ? $path : $path . '?' . $param . '=' . urlencode($key);
         echo '<a href="' . e($href) . '" class="filter-tab' . $active . '">' . e($label) . '</a>';
     }
     echo '</div></div>';
@@ -242,7 +277,7 @@ function trackVisit(): void {
 }
 
 function getVisitStats(string $filter = 'all'): array {
-    [$where, $params] = buildDateFilterClause($filter, 'visit_date');
+    [$where, $params] = buildDateFilterClause($filter, 'visit_date', true);
     $db = getDB();
     $stmt = $db->prepare("SELECT COUNT(*) FROM site_visits WHERE $where");
     $stmt->execute($params);
@@ -256,7 +291,7 @@ function getVisitStats(string $filter = 'all'): array {
 }
 
 function getVisitsByCountry(string $filter = 'all'): array {
-    [$where, $params] = buildDateFilterClause($filter, 'visit_date');
+    [$where, $params] = buildDateFilterClause($filter, 'visit_date', true);
     $stmt = getDB()->prepare("SELECT country, country_code, COUNT(*) as visits, COUNT(DISTINCT ip_address) as unique_ips FROM site_visits WHERE $where GROUP BY country, country_code ORDER BY visits DESC LIMIT 20");
     $stmt->execute($params);
     return $stmt->fetchAll();

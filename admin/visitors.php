@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/config/config.php';
+require_once dirname(__DIR__) . '/config/config.php';
 requireAdmin();
 
 $filter = $_GET['filter'] ?? 'all';
@@ -8,7 +8,7 @@ if (!array_key_exists($filter, getDateFilterOptions())) {
 }
 
 $db = getDB();
-[$where, $params] = buildDateFilterClause($filter, 'visit_date');
+[$where, $params] = buildDateFilterClause($filter, 'visit_date', true);
 $stats = getVisitStats($filter);
 $byCountry = getVisitsByCountry($filter);
 

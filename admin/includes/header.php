@@ -14,7 +14,7 @@ $flash = getFlash();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= e($adminTitle ?? 'Admin') ?> — <?= e(APP_NAME) ?></title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/css/style.css?v=3.1">
+    <link rel="stylesheet" href="../assets/css/style.css?v=3.2">
 </head>
 <body class="admin-body">
     <header class="admin-header">

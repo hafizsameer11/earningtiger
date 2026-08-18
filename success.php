@@ -25,7 +25,7 @@ require_once 'includes/header.php';
             <?php else: ?>
                 <p>Your application has been received. We will contact you soon.</p>
             <?php endif; ?>
-            <p>WhatsApp: <a href="<?= e(whatsappLink(getSetting('whatsapp'))) ?>"><?= e(getSetting('whatsapp')) ?></a></p>
+            <p><a href="<?= e(whatsappLink()) ?>" target="_blank" rel="noopener"><?= e(whatsappLabel()) ?></a></p>
             <a href="index.php" class="btn btn-primary">Back to Home</a>
         </div>
     </div>

@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $s = getAllSettings();
 
 $groups = [
-    'General' => ['site_name', 'site_logo_icon', 'tagline', 'about_text', 'company_registered', 'contact_email', 'whatsapp', 'whatsapp_country_code', 'registration_amount', 'payment_instructions'],
+    'General' => ['site_name', 'site_logo_icon', 'tagline', 'about_text', 'company_registered', 'contact_email', 'whatsapp_group_link', 'whatsapp_button_text', 'whatsapp', 'whatsapp_country_code', 'registration_amount', 'payment_instructions'],
     'Hero Section' => ['hero_title', 'hero_subtitle', 'hero_title_urdu', 'hero_image', 'banner_image'],
     'Features (English, Urdu & Icons)' => [
         'features_section_urdu',
@@ -52,7 +52,9 @@ $labels = [
     'eligibility_4_highlight' => 'Highlight 4th Eligibility Card (1 = yes, 0 = no)',
     'proofs_section_title' => 'Payment Proofs Section Title',
     'proofs_section_subtitle' => 'Payment Proofs Section Subtitle',
-    'whatsapp' => 'WhatsApp Number (e.g. +91 9876543210 or 03XX-XXXXXXX)',
+    'whatsapp_group_link' => 'WhatsApp Group / Community Invite Link (paste full URL)',
+    'whatsapp_button_text' => 'WhatsApp Button Text on Website',
+    'whatsapp' => 'WhatsApp Number fallback (used only if group link is empty)',
     'whatsapp_country_code' => 'Country Code for local numbers (e.g. 92 for Pakistan, 91 for India)',
 ];
 

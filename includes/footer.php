@@ -17,7 +17,7 @@
         <div>
             <h4>Contact</h4>
             <ul>
-                <li>WhatsApp: <a href="<?= e(whatsappLink(getSetting('whatsapp'))) ?>"><?= e(getSetting('whatsapp')) ?></a></li>
+                <li><a href="<?= e(whatsappLink()) ?>" target="_blank" rel="noopener"><?= e(whatsappLabel()) ?></a></li>
                 <li>Email: <?= e(getSetting('contact_email')) ?></li>
             </ul>
         </div>

@@ -21,7 +21,7 @@ require_once 'includes/header.php';
             <p class="hero-desc"><?= e($s['about_text']) ?></p>
             <div class="hero-actions">
                 <a href="signup.php" class="btn btn-hero btn-lg">Register Now</a>
-                <a href="<?= e(whatsappLink($s['whatsapp'])) ?>" class="btn btn-hero btn-lg" target="_blank" rel="noopener">WhatsApp Us</a>
+                <a href="<?= e(whatsappLink()) ?>" class="btn btn-hero btn-lg" target="_blank" rel="noopener"><?= e(whatsappLabel()) ?></a>
             </div>
             <div class="hero-badges">
                 <span>✓ <?= e($s['company_registered']) ?></span>
@@ -194,7 +194,7 @@ require_once 'includes/header.php';
     <div class="container">
         <div class="contact-box">
             <h2>Get in Touch</h2>
-            <p>Message us on WhatsApp: <strong><a href="<?= e(whatsappLink($s['whatsapp'])) ?>"><?= e($s['whatsapp']) ?></a></strong></p>
+            <p><a href="<?= e(whatsappLink()) ?>" class="btn btn-primary" target="_blank" rel="noopener"><?= e(whatsappLabel()) ?></a></p>
             <p>Email: <strong><?= e($s['contact_email']) ?></strong></p>
         </div>
     </div>

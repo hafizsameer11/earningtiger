@@ -174,12 +174,20 @@ function buildDateFilterClause(string $filter, string $column = 'created_at', bo
     }
 }
 
-function whatsappLink(string $number): string {
+function whatsappLink(?string $fallbackNumber = null): string {
+    $group = trim(getSetting('whatsapp_group_link'));
+    if ($group !== '') {
+        if (preg_match('#^https?://#i', $group)) {
+            return $group;
+        }
+        return 'https://' . ltrim($group, '/');
+    }
+
+    $number = $fallbackNumber ?? getSetting('whatsapp');
     $digits = preg_replace('/\D/', '', $number);
     if ($digits === '') {
         return '#';
     }
-    // Local format (03XX...) — prepend country code from settings
     if (str_starts_with($digits, '0')) {
         $cc = preg_replace('/\D/', '', getSetting('whatsapp_country_code', '92'));
         if ($cc !== '') {
@@ -187,6 +195,14 @@ function whatsappLink(string $number): string {
         }
     }
     return 'https://wa.me/' . $digits;
+}
+
+function whatsappLabel(): string {
+    $label = trim(getSetting('whatsapp_button_text'));
+    if ($label !== '') {
+        return $label;
+    }
+    return trim(getSetting('whatsapp_group_link')) !== '' ? 'Join WhatsApp Group' : 'WhatsApp Us';
 }
 
 function getDateFilterOptions(): array {

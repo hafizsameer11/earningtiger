@@ -1,6 +1,6 @@
 <?php
 
-define('MIGRATION_VERSION', 3);
+define('MIGRATION_VERSION', 4);
 
 function runMigrations(): array {
     $db = getDB();
@@ -85,6 +85,8 @@ function runMigrations(): array {
         'hero_title_urdu' => 'خوشخبری! کمپیوٹر یا موبائل پر کام کرنے کے لیے لڑکیوں کی ضرورت ہے',
         'whatsapp' => '0309-7000767',
         'whatsapp_country_code' => '92',
+        'whatsapp_group_link' => '',
+        'whatsapp_button_text' => 'Join WhatsApp Group',
         'registration_fee' => '0',
         'company_registered' => 'Company Registered (FBR & SSL)',
         'hero_image' => 'https://aqservices.pk/wp-content/uploads/2024/12/Alqalam-1-794x1024.png',
